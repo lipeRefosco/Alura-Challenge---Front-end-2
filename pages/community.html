@@ -1,0 +1,48 @@
+<div class="card__project">
+    <div class="code-editor">
+        <div class="code-editor__window">
+            <div class="code-editor__header">
+                <div class="code-editor__buttons">
+                    <div class="code-editor__button close"></div>
+                    <div class="code-editor__button minimaze"></div>
+                    <div class="code-editor__button maximaze"></div>
+                </div>
+            </div>
+            <div class="code-editor__body">
+                <textarea>
+const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
+
+const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res)
+
+const unfold = (f, seed) => {
+    const go = (f, seed, acc) => {
+    const res = f(seed)
+    return res ? go(f, res[1], acc.concat([res[0]])) : acc
+    }
+    return go(f, seed, [])
+}
+                </textarea>
+            </div>
+        </div>
+    </div>
+    <div class="card__body">
+        <h2 class="card__title">Titulo do card</h2>
+        <p class="card__description">Descrição do card</p> 
+    </div>
+    <div class="card__footer">
+        <div>
+            <button class="card__btn">
+                <div class="icon icon-comment"></div>
+                9
+            </button>
+            <button class="card__btn">
+                <div class="icon icon-heart"></div>
+                9
+            </button>
+        </div>
+        <button class="card__user user">
+            <img src="./assets/img/perfil.jpg" class="user__img">
+            <span class="user__name">@Harry</span>
+        </button>
+    </div>
+</div>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>alura DEV - Alura Challenge</title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="column column__left">
+            <div class="logo"></div>
+        </div>
+        <div class="column column__middle">
+            <div class="search">
+                <button id="search__btn" class="btn__outlined icon-search"></button>
+                <form method="post">
+                    <input class="search__bar" type="search" placeholder="Busque por algo">
+                </form>
+            </div>
+        </div>
+        <div class="column column__right">
+            <button class="user">
+                <img src="./assets/img/perfil.jpg" class="user__img">
+                <span class="user__name">Harry</span>
+            </button>
+        </div>
+    </header>
+    <main class="main">
+        <button id="menu__btn" class="btn__outlined icon-menu"></button>
+        <div id="menu" class="column column__left">
+            <section class="menu">
+                <h4 class="sidebar-title">Menu</h4>
+                <nav>
+                    <ul>
+                        <li class="space-top">
+                            <a href="#code-editor" class="menu__button on-page">
+                                <span class="menu__icon icon-code"></span>
+                                <span class="menu__link">Editor de código</span>
+                            </a>
+                        </li>
+                        <li class="space-top">
+                            <a href="#community" class="menu__button">
+                                <span class="menu__icon icon-community"></span>
+                                <span class="menu__link">Comunidade</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </section>
+        </div>
+        <div class="column column__middle">
+            <div id="content" class="content space-bottom">
+                
+            </div>
+        </div>
+        <div id="column__right" class="column column__right">
+            <section class="project__properties">
+                <form>
+                    <div>
+                        <h4 class="sidebar-title">Seu projeto</h4>
+                        <input id="project__name" class="project__name space-top space-bottom" type="text" name="project__name" placeholder="Nome do seu projeto">
+                        <textarea id="project__description" class="project__description" rows="2" placeholder="Descrição do seu projeto"></textarea>
+                    </div>
+                    <div class="space-top">
+                        <h4 class="sidebar-title">Personalização</h4>
+                        <div class="project__personalisation">
+                            <select id="project__langs" class="project__langs space-top space-bottom" name="project__langs">
+                                <option value="javascript">JavaScript</option>
+                                <option value="php">PHP</option>
+                                <option value="java">Java</option>
+                                <option value="c">C</option>
+                            </select>
+                        <input id="project__color" class="project__color space-top" type="color" name="project__color" value="#000000">
+                        </div>
+                    </div>
+                    <div class="space-top">
+                        <button id="project__save-btn" class="btn__filled project__save-btn">Salvar projeto</button>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </main>
+    <footer class="footer">Desenvolvido por REFOSCO - 2022</footer>
+    <script src="./scripts/scripts.js"></script>
+</body>
+</html>
