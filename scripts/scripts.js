@@ -1,16 +1,16 @@
-document.addEventListener('DOMContentLoaded', loadedPage);
-document.querySelector('#project__save-btn').addEventListener('click', saveProject);
-document.querySelector('#project__color').addEventListener('change', changeBgCodeEditor);
-window.onhashchange = changeContentPage;
+document.addEventListener("DOMContentLoaded", loadedPage);
+document.querySelector("#project__save-btn").addEventListener("click", saveProject);
+document.querySelector("#project__color").addEventListener("change", changeBgCodeEditor);
+window.addEventListener("hashchange", changeContentPage);
 
 function loadedPage(){
     // Quando acontecer um load na pagina executa estes script
     additionsMenuLinks();
     changeContentPage();
+    
 }
 
 function changeContentPage(){
-
     additionsMenuLinks();
     // changeBgCodeEditor();
 
@@ -19,7 +19,7 @@ function changeContentPage(){
     const pageName = hashPage.replace("#", "");
 
     // Pegar o ID que será inserido o conteudo
-    const localInsertContent = document.getElementById('content');
+    const localInsertContent = document.getElementById("content");
     const middleColumn = document.querySelectorAll(".column__middle")[1];
     const rightColumn = document.querySelectorAll(".column__right")[1];
 
@@ -27,24 +27,19 @@ function changeContentPage(){
     if(pageName === "" || pageName === "code-editor"){
         addOnPageAJAX(`pages/code-editor.html`, localInsertContent);
         rmClassElement( middleColumn, "width100" );
-        setTimeout(1000);
         rmClassElement( rightColumn, "hidden" );
     }else if(pageName === "community"){
         localInsertContent.innerHTML = "";
         loadCommunityCards(localInsertContent);
         addClassElement( rightColumn, "hidden" );
-        setTimeout(1000);
         addClassElement( middleColumn, "width100" );
     }else{
         addOnPageAJAX(`pages/${pageName}.html`, localInsertContent);
-        addClassElement( middleColumn, "width100" );
         addClassElement( rightColumn, "hidden" );
+        addClassElement( middleColumn, "width100" );
     }
     
-    document.querySelectorAll('pre code').forEach((el) => {
-        hljs.highlightElement(el);
-        rmClassElement(el, 'hljs');
-    });
+    addHighlight()
 }
 
 function changeBgCodeEditor() {
@@ -66,6 +61,8 @@ function additionsMenuLinks(){
 
         if( isCurrentPage(menuItem[i]) ){ // Se for igual a pagina adiciona o estilo ao elemento
             addClassElement(menuItem[i], "on-page");
+        }else if(menuItem[i].hash === "#code-editor" && window.location.hash === ""){
+            addClassElement( menuItem[i], "on-page" );
         }else{
             rmClassElement(menuItem[i], "on-page")
         }
@@ -74,21 +71,33 @@ function additionsMenuLinks(){
 }
 
 function loadCommunityCards(target) {
+    if( localStorage.length === 0 ){
+        target.insertAdjacentHTML('afterbegin', "<p>Nenhum card foi cadastrado, seja o primeiro ;)</p>")
+        return;
+    }
+
+    // const dataObject = {
+    //     id          : localStorage.length + 1,
+    //     name        : nameProject,
+    //     description : descriptionProject,
+    //     lang        : langProject,
+    //     color       : colorProject,
+    //     code        : codeProject,
+    //     likes       : 0,
+    //     date        : Date.now()
+    // };
+
     for (let i = 0; i < localStorage.length; i++) {
         // Seleciona o card
-        let card = localStorage.getItem( localStorage.key(i) );
+        let card = localStorage.getItem( i+1 );
         
         // Transforma em Objeto
-        cardObject = JSON.parse(card);
+        cardProject = JSON.parse(card);
 
-
-        if( localStorage.length === 0 ){
-            target.insertAdjacentHTML('afterbegin', "<p>Nenhum card foi cadastrado, seja o primeiro ;)</p>")
-            return;
-        }
-        // Insere na target
-        target.insertAdjacentHTML('beforeend', `<div class="card__project">
-    <div class="code-editor" style="background-color: ${cardObject.colorProject}">
+        // Insere no target
+        target.insertAdjacentHTML('afterbegin', `
+<div class="card__project">
+    <div class="code-editor" style="background-color: ${cardProject.color};">
         <div class="code-editor__window">
             <div class="code-editor__header">
                 <div class="code-editor__buttons">
@@ -98,17 +107,13 @@ function loadCommunityCards(target) {
                 </div>
             </div>
             <div class="code-editor__body">
-                <pre>
-                    <code>
-${cardObject.codeProject}
-                    </code>
-                </pre>
+                <pre><code>${cardProject.code}</code></pre>
             </div>
         </div>
     </div>
     <div class="card__body">
-        <h2 class="card__title">${cardObject.nameProject}</h2>
-        <p class="card__description">${cardObject.descriptionProject}</p> 
+        <h2 class="card__title">${cardProject.name}</h2>
+        <p class="card__description">${cardProject.description}</p> 
     </div>
     <div class="card__footer">
         <div>
@@ -118,7 +123,7 @@ ${cardObject.codeProject}
             </button>
             <button class="card__btn">
                 <div class="icon icon-heart"></div>
-                9
+                ${cardProject.likes}
             </button>
         </div>
         <button class="card__user user">
@@ -144,9 +149,10 @@ function addOnPageAJAX(url, target) {
 function isCurrentPage(link){
     // Verifica se o link tem o mesmo pathname que a URL
     let page = window.location.hash;
+    let onPage = page.replace("#", )
 
     // Se o link e a pagina tiverem o mesmo href
-    if( link.hash === page || page === ""){
+    if( link.hash === page){
         return true;
     }else{
         return false;
@@ -162,6 +168,42 @@ function addClassElement(element, cssClass){
 function rmClassElement(element, cssClass){
     // Remove a classe
     element.classList.remove(cssClass);
+}
+
+function highlightCode() {
+
+    const content = document.querySelector("#content");
+    const code = document.querySelector("#code-editor__code").value;
+    const colorSelected = document.querySelector("#project__color").value;
+    
+    // Cria um popup com o codigo em highlight
+    content.insertAdjacentHTML('beforeend', `
+    <div id="code-editor__highlight" class="code-editor__highlight">
+        <button class="btn__outlined icon icon-close" onclick="highlightCodeClose()"></button>
+        <div class="code-editor" style="background-color: ${colorSelected};">
+        <div class="code-editor__window">
+            <div class="code-editor__header">
+                <div class="code-editor__buttons">
+                    <div class="code-editor__button close"></div>
+                    <div class="code-editor__button minimaze"></div>
+                    <div class="code-editor__button maximaze"></div>
+                </div>
+            </div>
+            <div class="code-editor__body">
+                <pre><code>${code}</code></pre>
+            </div>
+        </div>
+    </div>
+    </div>
+    `);
+
+    // Adiciona o highlight
+    addHighlight()
+}
+
+function highlightCodeClose(){
+    const highlight = document.querySelector("#code-editor__highlight")
+    highlight.remove()
 }
 
 function saveProject() {
@@ -180,18 +222,28 @@ function saveProject() {
 
     // Transforma os dados em um objeto
     const dataObject = {
-        nameProject : nameProject,
-        descriptionProject : descriptionProject,
-        langProject : langProject,
-        colorProject : colorProject,
-        codeProject : codeProject
+        id          : localStorage.length + 1,
+        name        : nameProject,
+        description : descriptionProject,
+        lang        : langProject,
+        color       : colorProject,
+        code        : codeProject,
+        likes       : 0,
+        date        : Date.now()
     };
 
     // Transforma o objeto em string
     const dataJSON = JSON.stringify(dataObject);
 
-    localStorage.setItem(dateSaved, dataJSON);
+    localStorage.setItem(dataObject.id, dataJSON);
 
     console.log("Projeto salvo!");
-    console.log(localStorage);
+    // console.log(localStorage);
+}
+
+function addHighlight() {
+    document.querySelectorAll('pre code').forEach((el) => {
+        hljs.highlightElement(el);
+        rmClassElement(el, "hljs");
+    });
 }

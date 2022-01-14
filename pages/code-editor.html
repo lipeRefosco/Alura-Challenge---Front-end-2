@@ -8,20 +8,8 @@
             </div>
         </div>
         <div class="code-editor__body">
-            <textarea id="code-editor__code">
-const pluckDeep = key => obj => key.split('.').reduce((accum, key) => accum[key], obj)
-
-const compose = (...fns) => res => fns.reduce((accum, next) => next(accum), res)
-
-const unfold = (f, seed) => {
-  const go = (f, seed, acc) => {
-    const res = f(seed)
-    return res ? go(f, res[1], acc.concat([res[0]])) : acc
-  }
-  return go(f, seed, [])
-}
-            </textarea>
+            <textarea id="code-editor__code" placeholder="Digite seu código aqui..."></textarea>
         </div>
     </div>
 </div>
-<button class="btn__outlined space-top space-bottom highlight">Visualizar com o <span lang="en">highlight</span></button>
+<button id="highlight__btn" class="btn__outlined space-top space-bottom highlight" onclick="highlightCode()">Visualizar com o <span lang="en">highlight</span></button>

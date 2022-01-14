@@ -330,10 +330,35 @@ textarea:focus
 		background-color: #FFBD2E;
 	}
 
+	.code-editor__highlight{
+		width: 100vw;
+		height: 100vh;
+		padding: var(--margin-sides);
+		box-sizing: border-box;
+		position: fixed;
+		top: 0; left: 0;
+		background-color: rgba(0, 0, 0, 0.6);
+		z-index: 9999;
+
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.code-editor__highlight button{
+		position: absolute;
+		top: var(--margin-sides);
+		right: var(--margin-sides);
+	}
+
+	.code-editor__highlight .code-editor{
+		width: 80vw;
+	}
+	
+
 /* Card Project */
 .card__project{
-	min-height: fit-content;
-	min-width: 470px;
+	min-width: 700px;
 	padding: 4px;
 	margin-bottom: 32px;
 	background-color: rgba(0, 0, 0, 0.16);
@@ -341,6 +366,7 @@ textarea:focus
 	box-sizing: border-box;
 }
 .card__project .code-editor__body code{
+	display: inline-block;
 	font-size: 0.75em;
 }
 .card__project .code-editor__button{
