@@ -76,24 +76,12 @@ function loadCommunityCards(target) {
         return;
     }
 
-    // const dataObject = {
-    //     id          : localStorage.length + 1,
-    //     name        : nameProject,
-    //     description : descriptionProject,
-    //     lang        : langProject,
-    //     color       : colorProject,
-    //     code        : codeProject,
-    //     likes       : 0,
-    //     date        : Date.now()
-    // };
-
     for (let i = 0; i < localStorage.length; i++) {
         // Seleciona o card
         let card = localStorage.getItem( i+1 );
         
         // Transforma em Objeto
         cardProject = JSON.parse(card);
-
         // Insere no target
         target.insertAdjacentHTML('afterbegin', `
 <div class="card__project">
@@ -107,7 +95,7 @@ function loadCommunityCards(target) {
                 </div>
             </div>
             <div class="code-editor__body">
-                <pre><code>${cardProject.code}</code></pre>
+                <pre><code>${cardProject.code.replace("<", "&lt;").replace(">", "&gt;")}</code></pre>
             </div>
         </div>
     </div>
@@ -176,6 +164,10 @@ function highlightCode() {
     const code = document.querySelector("#code-editor__code").value;
     const colorSelected = document.querySelector("#project__color").value;
     
+    // filtra o codigo para
+    const codeFiltred = code.replace("<", "&lt;").replace(">", "&gt;");
+    // code.replace(">", "&gt;");
+
     // Cria um popup com o codigo em highlight
     content.insertAdjacentHTML('beforeend', `
     <div id="code-editor__highlight" class="code-editor__highlight">
@@ -190,7 +182,7 @@ function highlightCode() {
                 </div>
             </div>
             <div class="code-editor__body">
-                <pre><code>${code}</code></pre>
+                <pre><code>${codeFiltred}</code></pre>
             </div>
         </div>
     </div>
