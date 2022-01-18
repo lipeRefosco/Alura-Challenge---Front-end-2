@@ -25,16 +25,22 @@ function changeContentPage(){
 
     // pegar o arquivo com o mesmo nome da hash
     if(pageName === "" || pageName === "code-editor"){
-        addOnPageAJAX(`pages/code-editor.html`, localInsertContent);
+        addOnTarget(`pages/code-editor.html`, localInsertContent);
+
+        // Diminui a coluna do meio e Mostra a coluna da direita
         rmClassElement( middleColumn, "width100" );
         rmClassElement( rightColumn, "hidden" );
     }else if(pageName === "community"){
         localInsertContent.innerHTML = "";
         loadCommunityCards(localInsertContent);
+
+        // Aumenta a coluna do meio e Esconde a coluna da direita
         addClassElement( rightColumn, "hidden" );
         addClassElement( middleColumn, "width100" );
     }else{
-        addOnPageAJAX(`pages/${pageName}.html`, localInsertContent);
+        addOnTarget(`pages/${pageName}.html`, localInsertContent);
+
+        // Aumenta a coluna do meio e Esconde a coluna da direita
         addClassElement( rightColumn, "hidden" );
         addClassElement( middleColumn, "width100" );
     }
@@ -124,7 +130,7 @@ function loadCommunityCards(target) {
     } // Fim loop
 }
 
-function addOnPageAJAX(url, target) {
+function addOnTarget(url, target) {
     fetch(url)
     .then( (html) => {
         return html.text();
