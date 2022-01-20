@@ -11,5 +11,5 @@ Pode acessar direto pelo ./index.html ou subir um servidor com o Live Server pel
  - Javascript
 
 # Carregamento das páginas:
-Utilizando a função fetch, fiz com que algumas das páginas que não tem nenhuma alteração dinámica com o "banco de dados", seja carregada sem precisar carregar o resto da estrutura do HTML, podendo diminuir a quantidade de banda que será utilizada (dependendo da página).
+Utilizando a função fetch, fiz com que algumas das páginas que não tem nenhuma interação com o banco de dados/localStorage, seja carregada sem precisar carregar o resto da estrutura do HTML, podendo diminuir a quantidade de banda que será utilizada (dependendo da página).
 
